@@ -1,0 +1,80 @@
+# __________________________________________________________________________________________________________________________________
+# MUTATIONS
+# __________________________________________________________________________________________________________________________________
+# __________________________________________________________________________________________________________________________________
+type Mutation {
+  #   createShopifyProduct(
+  #     title: String!
+  #     description: String!
+  #     image: String!
+  #   ): createProduct
+  #     @rest(
+  #       resultroot: "product"
+  #       endpoint: """
+  #       https://us-central1-stepzen-web-staging.cloudfunctions.net/shopify-POST/?product=image:$image;,title:$title;,body_html:$description;&url=https://$api_key:$api_password@canonicalstore.myshopify.com/admin/api/2020-01/products.json
+  #       """
+  #       setters: [
+  #         { field: "description", path: "body_html" }
+  #         # I added this because I could not get around error --> "Cannot return null for non-nullable field Product.image."
+  #         { field: "image", path: "published_scope" }
+  #       ]
+  #       configuration: "shopify_config"
+  #     )
+  """
+  writes Shopify title and description to Agility
+  """
+  shopifyToAgility(description: String!, Title: String!, shopifyId: ID!, image: String!): [AgilityProduct]
+      @rest(
+      endpoint: "https://restbackend.ngrok.io?object=create&fields=Title:$Title;,description:$description;,shopifyId:$shopifyId;,image:$image;"
+    )
+  """
+  creates a map of Shopify + Agility ids to connect the data
+  """
+  shopifyToAgilityMap(agilityId: ID!, shopifyId: ID!): [Map]
+
+    @rest(
+      endpoint: "https://us-central1-stepzen-web-staging.cloudfunctions.net/agilityCMSSDK?object=map&fields=agilityId:$agilityId;,shopifyId:$shopifyId;"
+      configuration: "shopify_config"
+    )
+  # shopifyToAgilitySequence(date: String!): [Map]
+  # 	@sequence(
+  # 		steps: [
+  # 			{ query: "newProducts" }
+  # 			{ mutation: "shopifyToAgility" }
+  # 			{ mutation: "shopifyToAgilityMap" }
+  # 		]
+  # 	)
+  shopifyToAgilitySequence(
+    Title: String!
+    description: String!
+    shopifyId: ID!
+    image: String!
+  ): [AgilityProduct]
+    @sequence(
+      steps: [
+        { mutation: "shopifyToAgility" }
+      ]
+    )
+  # createOrder(
+  #   variant_id: ID!
+  #   quantity: Int!
+  #   email: String!
+  #   fulfillment_status: String!
+  #   send_fulfillment_receipt: Boolean!
+  # ): IdWrapper
+  #   # shopifyCreateOrder (variant_id: ID!, email: String!, fulfillment_status: String!, send_fulfillment_receipt: Boolean!, send_fulfillment_receipt: Boolean!): ShopifyCreateOrder
+  #   #     @supplies (mutation: "createOrder")
+  #   @rest(
+  #     setters: [
+  #       { field: "id", path: "order.id" }
+  #       # {field: "variant_id", path: "order.line_items[].variant_id"},
+  #       # {field: "quantity", path: "order.line_items[].quantity"},
+  #       # {field: "email", path: "order.email"},
+  #       # {field: "fulfillment_status", path: "order.line_items[].fulfillment_status"},
+  #       # {field: "send_fulfillment_receipt", path: "order.fulfillments[][0].receipt"}
+  #     ]
+  #     resultroot: ""
+  #     endpoint: "http://02f5d90995a6.ngrok.io?order=quantity:$quantity;,variant_id:$variant_id;,email:$email;,fulfillment_status:$fulfillment_status;,send_fulfillment_receipt:$send_fulfillment_receipt;&url=https%3A%2F%2Fcanonicalstore.myshopify.com%2Fadmin%2Fapi%2F2020-01%2Forders.json"
+  #     configuration: "shopify_config"
+  #   )
+}

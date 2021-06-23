@@ -1,0 +1,16 @@
+configurationset:
+  - configuration:
+      name: agility_config
+      header.Apikey: <agility api key>
+      header.host: <agility host header>
+      header.Connection: keep-alive
+      header.Accept: '*/*'
+      instance: <agility instance>
+  - configuration:
+      name: shopify_config
+      Authorization: Basic <basic auth header>
+      store_name: <shopify store name>
+  - configuration:
+      name: shopify
+      header.X-Shopify-Access-Token: <shopify-access-token>
+      store_name: <shopify store name>
