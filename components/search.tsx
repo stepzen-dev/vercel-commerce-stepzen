@@ -14,6 +14,8 @@ import useSearch from '@framework/product/use-search'
 import getSlug from '@lib/get-slug'
 import rangeMap from '@lib/range-map'
 
+import { getAllProducts } from '../lib/api'
+
 const SORT = Object.entries({
   'trending-desc': 'Trending',
   'latest-desc': 'Latest arrivals',
@@ -28,7 +30,7 @@ import {
   useSearchMeta,
 } from '@lib/search'
 
-export default function Search({ categories, brands }: SearchPropsType) {
+export default function Search({ categories, brands, typeList }: SearchPropsType) {
   const [activeFilter, setActiveFilter] = useState('')
   const [toggleFilter, setToggleFilter] = useState(false)
 
@@ -40,8 +42,10 @@ export default function Search({ categories, brands }: SearchPropsType) {
   // of those is selected
   const query = filterQuery({ sort })
 
+  console.log('typeList', typeList)
+
   const { pathname, category, brand } = useSearchMeta(asPath)
-  const activeCategory = categories.find((cat: any) => cat.slug === category)
+  const activeCategory = typeList.find((cat: any) => cat === category)
   const activeBrand = brands.find(
     (b: any) => getSlug(b.node.path) === `brands/${brand}`
   )?.node
@@ -79,8 +83,8 @@ export default function Search({ categories, brands }: SearchPropsType) {
                   aria-haspopup="true"
                   aria-expanded="true"
                 >
-                  {activeCategory?.name
-                    ? `Category: ${activeCategory?.name}`
+                  {activeCategory
+                    ? `Category: ${activeCategory}`
                     : 'All Categories'}
                   <svg
                     className="-mr-1 ml-2 h-5 w-5"
@@ -132,21 +136,18 @@ export default function Search({ categories, brands }: SearchPropsType) {
                         </a>
                       </Link>
                     </li>
-                    {categories.map((cat: any) => (
+                    {typeList.map((cat: any) => (
                       <li
-                        key={cat.path}
+                        key={cat}
                         className={cn(
                           'block text-sm leading-5 text-accent-4 hover:bg-accent-1 lg:hover:bg-transparent hover:text-accent-8 focus:outline-none focus:bg-accent-1 focus:text-accent-8',
                           {
-                            underline: activeCategory?.id === cat.id,
+                            underline: activeCategory === cat,
                           }
                         )}
                       >
                         <Link
-                          href={{
-                            pathname: getCategoryPath(cat.path, brand),
-                            query,
-                          }}
+                          href={`/search?q=${cat.toLowerCase()}`}
                         >
                           <a
                             onClick={(e) => handleClick(e, 'categories')}
@@ -154,7 +155,7 @@ export default function Search({ categories, brands }: SearchPropsType) {
                               'block lg:inline-block px-4 py-2 lg:p-0 lg:my-2 lg:mx-4'
                             }
                           >
-                            {cat.name}
+                            {cat}
                           </a>
                         </Link>
                       </li>
