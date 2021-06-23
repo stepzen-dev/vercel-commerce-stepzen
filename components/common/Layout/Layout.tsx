@@ -45,7 +45,7 @@ const FeatureBar = dynamic(
 interface Props {
   pageProps: {
     pages?: Page[]
-    categories: Category[]
+    typeList: Array<string>
   }
 }
 
@@ -92,15 +92,15 @@ const SidebarUI: FC = () => {
 
 const Layout: FC<Props> = ({
   children,
-  pageProps: { categories = [], ...pageProps },
+  pageProps: { typeList = [], ...pageProps },
 }) => {
 
-  console.log('categories', categories)
+  console.log('pageProps', pageProps)
   const { acceptedCookies, onAcceptCookies } = useAcceptCookies()
   const { locale = 'en-US' } = useRouter()
-  const navBarlinks = categories.slice(0, 2).map((c) => ({
-    label: c.name,
-    href: `/search/${c.slug}`,
+  const navBarlinks = typeList.slice(0, 3).map((c: string) => ({
+    label: c,
+    href: `/search?q=${c.toLowerCase()}`,
   }))
 
   return (
