@@ -42,8 +42,6 @@ export default function Search({ categories, brands, typeList }: SearchPropsType
   // of those is selected
   const query = filterQuery({ sort })
 
-  console.log('typeList', typeList)
-
   const { pathname, category, brand } = useSearchMeta(asPath)
   const activeCategory = typeList.find((cat: any) => cat === category)
   const activeBrand = brands.find(
