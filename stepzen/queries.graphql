@@ -1,168 +1,5 @@
 
 # __________________________________________________________________________________________________________________________________
-# TYPES -- for queries.graphql and mutations.graphql
-# __________________________________________________________________________________________________________________________________
-# __________________________________________________________________________________________________________________________________
-# type createProduct {
-# 	id: ID!
-# 	description: String!
-# 	title: String!
-# 	image: String!
-# }
-  """
-  type that defines a product for StepZen including data from Agility and Shopify
-  """
-type ProductRest {
-  title: String
-  description: String
-  image: String
-  createdAt: String
-  agilityId: ID!
-  admin_graphql_api_id: String
-  hero: Boolean
-  type: String
-  slug: String
-  use: String
-  # price: String
-  shopifyId: ID!
-  audience: String
-  #variant_id: ID!
-  variants: [ShopifyProductVariants]
-    @materializer(
-      query: "shopifyProductVariants"
-      arguments: [{ name: "product_id", field: "shopifyId" }]
-    )
-  images: [ShopifyProductImages]
-    @materializer(
-      query: "shopifyProductImages"
-      arguments: [{ name: "product_id", field: "shopifyId" }]
-    )
-  options: [ShopifyProductOptions]
-    @materializer(
-      query: "shopifyProductOptions"
-      arguments: [{ name: "product_id", field: "shopifyId" }]
-    )
-  productGraphql: Product
-    @materializer(
-      query: "product"
-      arguments: [{ name: "id", field: "admin_graphql_api_id" }]
-    )
-}
-
-  """
-  defines Agility product type
-  """
-type AgilityProduct {
-  title: String
-  Title: String
-  description: String
-  shopifyId: ID!
-  image: String
-  createdAt: String
-  agilityId: ID!
-  audience: String
-  hero: Boolean
-  type: String
-  slug: String
-  use: String
-}
-
-  """
-  defines Shopify product type
-  """
-type ShopifyProduct {
-  title: String!
-  description: String!
-  admin_graphql_api_id: String
-  # price: String
-  createdAt: String!
-  shopifyId: ID!
-  variants: [ShopifyProductVariants]
-    @materializer(
-      query: "shopifyProductVariants"
-      arguments: [{ name: "product_id", field: "shopifyId" }]
-    )
-  images: [ShopifyProductImages]
-    @materializer(
-      query: "shopifyProductImages"
-      arguments: [{ name: "product_id", field: "shopifyId" }]
-    )
-  options: [ShopifyProductOptions]
-    @materializer(
-      query: "shopifyProductOptions"
-      arguments: [{ name: "product_id", field: "shopifyId" }]
-    )
-  productGraphql: Product
-    @materializer(
-      query: "product"
-      arguments: [{ name: "id", field: "admin_graphql_api_id" }]
-    )
-}
-
-  """
-  defines Shopify product variants
-  """
-type ShopifyProductVariants {
-  id: ID!
-  product_id: ID!
-  price: String
-  position: Int!
-  inventory_quantity: Int
-  requires_shipping: Boolean
-  weight: Float
-}
-
-  """
-  defines Shopify product images
-  """
-type ShopifyProductImages {
-  id: ID!
-  product_id: ID!
-  alt: String
-  width: Float
-  height: Float
-  src: String
-  position: String
-}
-  """
-  defines Shopify product options
-  """
-type ShopifyProductOptions {
-  id: ID!
-  product_id: ID!
-  name: String
-  position: String
-  values: String
-}
-
-  """
-  defines map type to link Agility and Shopify ids
-  """
-type Map {
-  agilityId: ID!
-  shopifyId: ID!
-}
-# type Order {
-#   id: ID!
-#   quantity: Int!
-#   variant_id: ID!
-#   email: String!
-#   fulfillment_status: String!
-#   send_fulfillment_receipt: Boolean!
-# }
-# type IdWrapper {
-#   id: ID!
-# }
-# type ShopifyCreateOrder {
-# 	variant_id: ID!
-# 	email: String!
-# 	fulfillment_status: String!
-# 	send_fulfillment_receipt: Boolean!
-# 	send_fulfillment_receipt: Boolean!
-# }
-
-
-# __________________________________________________________________________________________________________________________________
 # QUERIES
 # __________________________________________________________________________________________________________________________________
 # __________________________________________________________________________________________________________________________________
@@ -257,13 +94,11 @@ type Query {
         image: String
         createdAt: String
         admin_graphql_api_id: String
-        # price: String
         type: String
         slug: String
         agilityId: ID
         shopifyId: ID
         hero: Boolean
-        use: String
               ): ProductRest @connector(type: "echo")
 
   """
@@ -283,7 +118,7 @@ type Query {
         { field: "hero", path: "fields.hero" }
         { field: "type", path: "fields.type" }
         { field: "slug", path: "fields.slug" }
-        { field: "use", path: "fields.use" }
+        
       ]
     )
 
@@ -304,7 +139,7 @@ type Query {
         { field: "hero", path: "fields.hero" }
         { field: "type", path: "fields.type" }
         { field: "slug", path: "fields.slug" }
-        { field: "use", path: "fields.use" }
+        
       ]
       resultroot: "items[]"
     )
@@ -366,7 +201,7 @@ type Query {
         { field: "hero", path: "fields.hero" }
         { field: "type", path: "fields.type" }
         { field: "slug", path: "fields.slug" }
-        { field: "use", path: "fields.use" }
+        
       ]
       resultroot: "items[]"
     )
@@ -388,7 +223,7 @@ type Query {
         { field: "hero", path: "fields.hero" }
         { field: "type", path: "fields.type" }
         { field: "slug", path: "fields.slug" }
-        { field: "use", path: "fields.use" }
+        
       ]
       resultroot: "items[]"
     )
@@ -410,7 +245,7 @@ type Query {
         { field: "hero", path: "fields.hero" }
         { field: "type", path: "fields.type" }
         { field: "slug", path: "fields.slug" }
-        { field: "use", path: "fields.use" }
+        
       ]
       resultroot: "items[]"
     )
@@ -432,27 +267,10 @@ type Query {
         { field: "hero", path: "fields.hero" }
         { field: "type", path: "fields.type" }
         { field: "slug", path: "fields.slug" }
-        { field: "use", path: "fields.use" }
+        
       ]
       resultroot: "items[]"
     )
-  #__________________
-  # SHOPIFY QUERIES
-  #___________________
-  # newProducts(date: String!): [ShopifyProduct]
-  # 	@rest(
-  # 		endpoint: "https://$store_name.myshopify.com/admin/api/2021-04/products.json?created_at_min=$date;"
-  # 		resultroot: "products[]"
-  # 		setters: [
-  # 			{ field: "shopifyId", path: "id" }
-  # 			{ field: "price", path: "variants[].price " }
-  # 			{ field: "title", path: "title" }
-  # 			{ field: "description", path: "body_html" }
-  # 			{ field: "createdAt", path: "created_at" }
-  # 			{ field: "variant_id", path: "variants[].id"}
-  # 		]
-  # 		configuration: "shopify_config"
-  # 	)
 
   """
   returns a Shopify product, given an id
@@ -463,11 +281,9 @@ type Query {
       resultroot: "product"
       setters: [
         { field: "shopifyId", path: "id" }
-        # { field: "price", path: "variants[].price " }
         { field: "title", path: "title" }
         { field: "description", path: "body_html" }
         { field: "createdAt", path: "created_at" }
-        # { field: "variant_id", path: "variants[].id" }
       ]
       configuration: "shopify_config"
     )
@@ -481,10 +297,8 @@ type Query {
       resultroot: "products[]"
       setters: [
         { field: "shopifyId", path: "id" }
-        # { field: "price", path: "variants[].price " }
         { field: "description", path: "body_html" }
         { field: "createdAt", path: "created_at" }
-        # { field: "variant_id", path: "variants[].id" }
       ]
       configuration: "shopify_config"
     )

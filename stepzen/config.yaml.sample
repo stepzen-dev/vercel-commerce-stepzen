@@ -1,10 +1,7 @@
 configurationset:
   - configuration:
       name: agility_config
-      header.Apikey: <agility api key>
-      header.host: <agility host header>
-      header.Connection: keep-alive
-      header.Accept: '*/*'
+      header.Apikey: <agility defaultpreview Apikey>
       instance: <agility instance>
   - configuration:
       name: shopify_config
