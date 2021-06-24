@@ -26,9 +26,7 @@ export default function Slug(product: any) {
 }
 
 export async function getStaticProps(params: any) {
-  console.log('params', params.params)
   const data = await getProductBySlug(params.params.slug)
-  // console.log('staticprops', data)
   return {
     props: {
       product: data,
@@ -39,7 +37,7 @@ export async function getStaticProps(params: any) {
 export async function getStaticPaths() {
   const products = await getAllProductsWithSlug()
   return {
-    paths: products.map((node: any) => `/en-US/product/${node.slug}`),
+    paths: products.map((node: any) => `/product/${node.slug}`),
     fallback: false,
   }
 }

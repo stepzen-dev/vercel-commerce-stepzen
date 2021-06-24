@@ -7,14 +7,12 @@ import { useRouter } from 'next/router'
 import { Layout } from '@components/common'
 import { SearchCard } from '@components/product'
 import type { Product } from '@commerce/types/product'
-import { Container, Grid, Skeleton } from '@components/ui'
+import { Container, Skeleton } from '@components/ui'
 
 import useSearch from '@framework/product/use-search'
 
 import getSlug from '@lib/get-slug'
 import rangeMap from '@lib/range-map'
-
-import { getAllProducts } from '../lib/api'
 
 const SORT = Object.entries({
   'trending-desc': 'Trending',
