@@ -8,8 +8,6 @@ import { getAllProducts } from '../lib/api'
 
 export async function getStaticProps() {
   const products = await getAllProducts()
-  // console.log('staticprops index', products)
-
   return {
     props: {
       products: products,
@@ -20,7 +18,6 @@ export async function getStaticProps() {
 export default function Home({
   products,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  console.log('products right before', products)
   return (
     <>
       {products.slice(0, 2).map((product: any, i: any) => (
