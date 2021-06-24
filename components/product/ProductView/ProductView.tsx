@@ -29,8 +29,6 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
   const [loading, setLoading] = useState(false)
   const [choices, setChoices] = useState<SelectedOptions>({})
 
-  // console.log('product in ProductView', product)
-
   useEffect(() => {
     let optionals = product.options
     if (product.productGraphql.options) {
@@ -48,30 +46,17 @@ const ProductView: FC<ProductViewProps> = ({ product }) => {
   // const variant = getVariant(product, choices)
 
   const addToCart = async () => {
-    console.log('choices', choices)
-    
     let uppercaseSize = choices?.size?.toUpperCase()
     let uppercaseColor = choices?.color?.toUpperCase()
 
     let titleMatch = `${uppercaseSize} / ${uppercaseColor}`
-    console.log('titleMatch', titleMatch)
-    console.log('variant.node.title.toUpperCase()', product.productGraphql.variants.edges[0].node.title.toUpperCase())
-    console.log('all variants', product.productGraphql.variants.edges)
     let checkoutVariant
     product.productGraphql.variants.edges.map((variant: any) => {
-      console.log('variant uno', variant)
       if(variant.node.title.toUpperCase() === titleMatch) {
-        console.log('this is the one', variant.node.title)
         checkoutVariant = variant.node.storefrontId
       }
     });
     setLoading(true)
-    console.log('productinview1', product.productGraphql.storefrontId)
-    console.log(
-      'productinview2',
-      product.productGraphql
-    )
-    console.log('the checkoutVariant', checkoutVariant)
     try {
       await addItem({
         productId: `${product.productGraphql.storefrontId}`,

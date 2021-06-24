@@ -1,8 +1,7 @@
 import { Layout } from '@components/common'
 import { Grid, Marquee, Hero } from '@components/ui'
 import { ProductCard } from '@components/product'
-// import HomeAllProductsGrid from '@components/common/HomeAllProductsGrid'
-import type { GetStaticPropsContext, InferGetStaticPropsType } from 'next'
+import type { InferGetStaticPropsType } from 'next'
 
 import { getAllProducts } from '../lib/api'
 

@@ -46,9 +46,8 @@ async function fetchAPI(query: any, { variables }: APIConnection = {}) {
   }
   
   export async function getProduct(id: any) {
-    console.log('this is the id', id)
-  
-    const mainSlug = id
+    
+    const mainId = id
   
     const data = await fetchAPI(
       `
@@ -100,18 +99,15 @@ async function fetchAPI(query: any, { variables }: APIConnection = {}) {
     `,
       {
         variables: {
-          id: mainSlug,
+          id: mainId,
         },
       }
     )
-  
-    console.log('queried data', data)
   
     return data
   }
   
   export async function getProductBySlug(slug: any) {
-    console.log('this is the slug', slug)
   
     const mainSlug = slug
   
@@ -170,8 +166,6 @@ async function fetchAPI(query: any, { variables }: APIConnection = {}) {
       }
     )
   
-    // console.log('queried data in slug', data)
-  
     return data
   }
   
@@ -189,17 +183,6 @@ async function fetchAPI(query: any, { variables }: APIConnection = {}) {
             }
         }
       `
-      //   .then((res) => res.json())
-      //   .then((res) => {
-      //     // console.log(res.data)
-      //     // res.data.products.slug = res.data.products.title
-      //     data.products.forEach((p) => {
-      //       p['slug'] = p.title
-      //         .toLowerCase()
-      //         .replace(/ /g, '-')
-      //         .replace(/[^\w-]+/g, '')
-      //     })
-      //   })
     )
   
     return data
@@ -244,16 +227,15 @@ async function fetchAPI(query: any, { variables }: APIConnection = {}) {
         }
       `
     )
+
+    // Finding the Types for Categories on Search Page
     let moreTypes = []
     for (let i = 0; i < data.productsRest.length; i++) {
       if (data.productsRest[i].type) {
         moreTypes.push(data.productsRest[i].type)
       }
     }
-  
-    // data.cookwareTypes = moreTypes
-    // if (data.cookwareTypes.length > 2) data.cookwareTypes.pop()
-  
     moreTypes = [...new Set(moreTypes)]
+    
     return moreTypes
   }

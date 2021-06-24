@@ -94,8 +94,7 @@ const Layout: FC<Props> = ({
   children,
   pageProps: { typeList = [], ...pageProps },
 }) => {
-
-  console.log('pageProps', pageProps)
+  
   const { acceptedCookies, onAcceptCookies } = useAcceptCookies()
   const { locale = 'en-US' } = useRouter()
   const navBarlinks = typeList.slice(0, 3).map((c: string) => ({
