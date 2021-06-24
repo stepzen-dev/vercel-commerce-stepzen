@@ -109,6 +109,7 @@ type Query {
       endpoint: "https://$instance;-api.agilitycms.cloud/preview/en-us/item/$agilityId"
       configuration: "agility_config"
       setters: [
+        { field: "title", path: "fields.title" }
         { field: "audience", path: "fields.audience" }
         { field: "description", path: "fields.description" }
         { field: "createdAt", path: "properties.modified" }
@@ -130,6 +131,7 @@ type Query {
       endpoint: "https://$instance;-api.agilitycms.cloud/preview/en-us/list/products?Filter=fields.audience%5Beq%5D%22$audience;%22&take=50"
       configuration: "agility_config"
       setters: [
+        { field: "title", path: "fields.title" }
         { field: "audience", path: "fields.audience" }
         { field: "description", path: "fields.description" }
         { field: "createdAt", path: "properties.modified" }
@@ -151,6 +153,7 @@ type Query {
       endpoint: "https://$instance;-api.agilitycms.cloud/preview/en-us/list/products?Filter=fields.shopifyId%5Beq%5D%22$shopifyId;%22"
       configuration: "agility_config"
       setters: [
+        { field: "title", path: "fields.title" }
         { field: "audience", path: "fields.audience" }
         { field: "description", path: "fields.description" }
         { field: "shopifyId", path: "fields.shopifyId" }
@@ -171,6 +174,7 @@ type Query {
       endpoint: "https://$instance;-api.agilitycms.cloud/preview/en-us/list/products?Filter=fields.slug%5Beq%5D%22$slug;%22"
       configuration: "agility_config"
       setters: [
+        { field: "title", path: "fields.title" }
         { field: "audience", path: "fields.audience" }
         { field: "description", path: "fields.description" }
         { field: "shopifyId", path: "fields.shopifyId" }
@@ -192,6 +196,7 @@ type Query {
       endpoint: "https://$instance;-api.agilitycms.cloud/preview/en-us/list/products?Filter=fields.type%5Beq%5D%22$type;%22"
       configuration: "agility_config"
       setters: [
+        { field: "title", path: "fields.title" }
         { field: "audience", path: "fields.audience" }
         { field: "description", path: "fields.description" }
         { field: "createdAt", path: "properties.modified" }
@@ -214,6 +219,7 @@ type Query {
       endpoint: "https://$instance;-api.agilitycms.cloud/preview/en-us/list/products?Filter=properties.referenceName%5Beq%5D%22$list;%22&take=50"
       configuration: "agility_config"
       setters: [
+        { field: "title", path: "fields.title" }
         { field: "audience", path: "fields.audience" }
         { field: "description", path: "fields.description" }
         { field: "createdAt", path: "properties.modified" }
@@ -236,6 +242,7 @@ type Query {
       endpoint: "https://$instance;-api.agilitycms.cloud/preview/en-us/list/products?Filter=properties.state%5Beq%5D$stage"
       configuration: "agility_config"
       setters: [
+        { field: "title", path: "fields.title" }
         { field: "audience", path: "fields.audience" }
         { field: "description", path: "fields.description" }
         { field: "createdAt", path: "properties.modified" }
@@ -258,6 +265,7 @@ type Query {
       endpoint: "https://$instance;-api.agilitycms.cloud/preview/en-us/list/products?take=50"
       configuration: "agility_config"
       setters: [
+        { field: "title", path: "fields.title" }
         { field: "audience", path: "fields.audience" }
         { field: "description", path: "fields.description" }
         { field: "createdAt", path: "properties.modified" }

@@ -8,8 +8,6 @@ export default function Slug(product: any) {
   const router = useRouter()
 
   console.log('router', router.isFallback)
-  console.log('product is here in slug', product)
-  // console.log('product', product.product.productByAgilityId)
 
   if (!router.isFallback && !product.product.productByAgilitySlug) {
     return <ErrorPage statusCode={404} />
@@ -27,7 +25,7 @@ export default function Slug(product: any) {
   )
 }
 
-export async function getServerSideProps(params: any) {
+export async function getStaticProps(params: any) {
   console.log('params', params.params)
   const data = await getProductBySlug(params.params.slug)
   // console.log('staticprops', data)
@@ -38,9 +36,8 @@ export async function getServerSideProps(params: any) {
   }
 }
 
-export async function getServerSidePaths() {
+export async function getStaticPaths() {
   const products = await getAllProductsWithSlug()
-  // console.log('staticpaths', products)
   return {
     paths: products.map((node: any) => `/en-US/product/${node.slug}`),
     fallback: false,
