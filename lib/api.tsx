@@ -2,11 +2,11 @@ import { APIConnection } from '../framework/stepzen/schema'
 
 async function fetchAPI(query: any, { variables }: APIConnection = {}) {
     const headers = {
-      Authorization: `Apikey ${process.env.NEXT_STEPZEN_API_KEY_DEV}`,
+      Authorization: `Apikey ${process.env.NEXT_STEPZEN_API_KEY}`,
       'Content-Type': 'application/json',
     }
   
-    const res = await fetch(`${process.env.NEXT_STEPZEN_API_URL_DEV}`, {
+    const res = await fetch(`${process.env.NEXT_STEPZEN_API_URL}`, {
       method: 'POST',
       headers,
       body: JSON.stringify({
@@ -61,7 +61,6 @@ async function fetchAPI(query: any, { variables }: APIConnection = {}) {
             image
             title
             hero
-            use
             type
             productGraphql {
               title
@@ -127,7 +126,6 @@ async function fetchAPI(query: any, { variables }: APIConnection = {}) {
             image
             title
             hero
-            use
             type
             productGraphql {
               title
@@ -219,7 +217,6 @@ async function fetchAPI(query: any, { variables }: APIConnection = {}) {
               title
               agilityId
               hero
-              use
               type
               slug
             }
@@ -242,7 +239,6 @@ async function fetchAPI(query: any, { variables }: APIConnection = {}) {
               title
               agilityId
               hero
-              use
               type
             }
         }
