@@ -25,6 +25,7 @@ export default function Home({
     <>
       {products.slice(0, 2).map((product: any, i: any) => (
         <Hero
+          key={product.agilityId}
           headline={product.title}
           description={product.description}
           hero_boolean={product.hero}
