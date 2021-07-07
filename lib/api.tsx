@@ -169,25 +169,6 @@ async function fetchAPI(query: any, { variables }: APIConnection = {}) {
     return data
   }
   
-  export async function getProductDos() {
-    const data = await fetchAPI(
-      `
-        query products {
-          productsRest {
-              audience
-              createdAt
-              description
-              image
-              title
-              agilityId
-            }
-        }
-      `
-    )
-  
-    return data
-  }
-  
   export async function getAllProducts() {
     const data = await fetchAPI(
       `
@@ -215,13 +196,6 @@ async function fetchAPI(query: any, { variables }: APIConnection = {}) {
       `
         query products {
           productsRest {
-              audience
-              createdAt
-              description
-              image
-              title
-              agilityId
-              hero
               type
             }
         }
