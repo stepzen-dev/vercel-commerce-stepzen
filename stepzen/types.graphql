@@ -61,8 +61,6 @@ type AgilityProduct {
 defines Shopify product type
 """
 type ShopifyProduct {
-  title: String!
-  description: String!
   admin_graphql_api_id: String
   createdAt: String!
   shopifyId: ID!

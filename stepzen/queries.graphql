@@ -7,6 +7,7 @@ type Query {
   #__________________
   # AGILITY QUERIES
   #___________________
+
   """
   returns a product via a sequence -- first a query to Agility, then to Shopify using the AgilityCMS field, shopifyId, then 'collect' returns all the info
   """
@@ -18,6 +19,7 @@ type Query {
         { query: "collect" }
       ]
     )
+
   """
   returns a product via a sequence -- first a query to Agility, then to Shopify using the AgilityCMS field, shopifyId, then 'collect' returns all the info
   """
@@ -41,6 +43,7 @@ type Query {
         { query: "collect" }
       ]
     )
+
   """
   returns a product via a sequence -- first a query to products based on whether they're at stage (0 or 1), then to Shopify using the AgilityCMS field, shopifyId, then 'collect' returns all the info
   """
@@ -48,29 +51,6 @@ type Query {
     @sequence(
       steps: [
         { query: "agilityProductsAtStage" }
-        { query: "shopifyProduct" }
-        { query: "collect" }
-      ]
-    )
-
-  """
-  returns a product via a sequence -- first a query to products based on audience, then to Shopify using the AgilityCMS field, shopifyId, then 'collect' returns all the info
-  """
-  productsByAudience(audience: String!): [ProductRest]
-    @sequence(
-      steps: [
-        { query: "agilityProductsByAudience" }
-        { query: "shopifyProduct" }
-        { query: "collect" }
-      ]
-    )
-  """
-  returns a product via a sequence -- first a query to products based on their content list, then to Shopify using the AgilityCMS field, shopifyId, then 'collect' returns all the info
-  """
-  productsByContentList(list: String!): [ProductRest]
-    @sequence(
-      steps: [
-        { query: "agilityProductsByContentList" }
         { query: "shopifyProduct" }
         { query: "collect" }
       ]
@@ -124,28 +104,6 @@ type Query {
     )
 
   """
-  queries Agility products based on audience
-  """
-  agilityProductsByAudience(audience: String!): [AgilityProduct]
-    @rest(
-      endpoint: "https://$instance;-api.agilitycms.cloud/preview/en-us/list/products?Filter=fields.audience%5Beq%5D%22$audience;%22&take=50"
-      configuration: "agility_config"
-      setters: [
-        { field: "title", path: "fields.title" }
-        { field: "audience", path: "fields.audience" }
-        { field: "description", path: "fields.description" }
-        { field: "createdAt", path: "properties.modified" }
-        { field: "agilityId", path: "contentID" }
-        { field: "shopifyId", path: "fields.shopifyId" }
-        { field: "image", path: "fields.image" }
-        { field: "hero", path: "fields.hero" }
-        { field: "type", path: "fields.type" }
-        { field: "slug", path: "fields.slug" }
-        
-      ]
-      resultroot: "items[]"
-    )
-  """
   queries Agility products based on shopifyId
   """
   agilityProductByShopifyId(shopifyId: ID!): AgilityProduct
@@ -166,6 +124,7 @@ type Query {
       ]
       resultroot: "items[]"
     )
+
   """
   queries Agility products based on shopifyId
   """
@@ -191,32 +150,9 @@ type Query {
   """
   queries Agility products based on type
   """
-    agilityProductsByType(type: String!): [AgilityProduct]
+  agilityProductsByType(type: String!): [AgilityProduct]
     @rest(
       endpoint: "https://$instance;-api.agilitycms.cloud/preview/en-us/list/products?Filter=fields.type%5Beq%5D%22$type;%22"
-      configuration: "agility_config"
-      setters: [
-        { field: "title", path: "fields.title" }
-        { field: "audience", path: "fields.audience" }
-        { field: "description", path: "fields.description" }
-        { field: "createdAt", path: "properties.modified" }
-        { field: "agilityId", path: "contentID" }
-        { field: "shopifyId", path: "fields.shopifyId" }
-        { field: "image", path: "fields.image" }
-        { field: "hero", path: "fields.hero" }
-        { field: "type", path: "fields.type" }
-        { field: "slug", path: "fields.slug" }
-        
-      ]
-      resultroot: "items[]"
-    )
-
-  """
-  queries Agility products based on content list
-  """
-  agilityProductsByContentList(list: String!): [AgilityProduct]
-    @rest(
-      endpoint: "https://$instance;-api.agilitycms.cloud/preview/en-us/list/products?Filter=properties.referenceName%5Beq%5D%22$list;%22&take=50"
       configuration: "agility_config"
       setters: [
         { field: "title", path: "fields.title" }
@@ -256,30 +192,7 @@ type Query {
       ]
       resultroot: "items[]"
     )
-
-  """
-  returns all Agility products
-  """
-  agilityProducts: [AgilityProduct]
-    @rest(
-      endpoint: "https://$instance;-api.agilitycms.cloud/preview/en-us/list/products?take=50"
-      configuration: "agility_config"
-      setters: [
-        { field: "title", path: "fields.title" }
-        { field: "audience", path: "fields.audience" }
-        { field: "description", path: "fields.description" }
-        { field: "createdAt", path: "properties.modified" }
-        { field: "agilityId", path: "contentID" }
-        { field: "shopifyId", path: "fields.shopifyId" }
-        { field: "image", path: "fields.image" }
-        { field: "hero", path: "fields.hero" }
-        { field: "type", path: "fields.type" }
-        { field: "slug", path: "fields.slug" }
-        
-      ]
-      resultroot: "items[]"
-    )
-
+    
   """
   returns a Shopify product, given an id
   """
@@ -289,8 +202,6 @@ type Query {
       resultroot: "product"
       setters: [
         { field: "shopifyId", path: "id" }
-        { field: "title", path: "title" }
-        { field: "description", path: "body_html" }
         { field: "createdAt", path: "created_at" }
       ]
       configuration: "shopify_config"
@@ -305,7 +216,6 @@ type Query {
       resultroot: "products[]"
       setters: [
         { field: "shopifyId", path: "id" }
-        { field: "description", path: "body_html" }
         { field: "createdAt", path: "created_at" }
       ]
       configuration: "shopify_config"
