@@ -1,3 +1,7 @@
+# StepZen modified Next.js Commerce
+This is a modified version of Next.js commerce designed as a proof-of-concept for combining Shopify's e-commerce platform with Agility CMS's headless CMS. Please read more about this example at the following blog post: [Tutorial: Building an eCommerce Solution with AgilityCMS, Shopify, and StepZen. Part 2](https://agilitycms.com/resources/posts/tutorial-building-an-ecommerce-solution-with-agilitycms-shopify-and-stepzen)
+
+
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fcommerce&project-name=commerce&repo-name=commerce&demo-title=Next.js%20Commerce&demo-description=An%20all-in-one%20starter%20kit%20for%20high-performance%20e-commerce%20sites.&demo-url=https%3A%2F%2Fdemo.vercel.store&demo-image=https%3A%2F%2Fbigcommerce-demo-asset-ksvtgfvnd.vercel.app%2Fbigcommerce.png&integration-ids=oac_MuWZiE4jtmQ2ejZQaQ7ncuDT)
 
 # Next.js Commerce
