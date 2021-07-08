@@ -8,7 +8,7 @@ type Mutation {
   """
   shopifyToAgility(description: String!, Title: String!, shopifyId: ID!, image: String!): [AgilityProduct]
       @rest(
-      endpoint: "https://us-central1-stepzen-web-staging.cloudfunctions.net/WebhookMutation?object=create&fields=Title:$Title;,description:$description;,shopifyId:$shopifyId;,image:$image;"
+      endpoint: "https://us-central1-stepzen-web-staging.cloudfunctions.net/agilityCMSSDK?object=create&fields=Title:$Title;,description:$description;,shopifyId:$shopifyId;,image:$image;"
     )
   shopifyToAgilitySequence(
     Title: String!
