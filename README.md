@@ -1,23 +1,12 @@
 # StepZen modified Next.js Commerce
 This is a modified version of Next.js commerce designed as a proof-of-concept for combining Shopify's e-commerce platform with Agility CMS's headless CMS. Please read more about this example at the following blog post: [Tutorial: Building an eCommerce Solution with AgilityCMS, Shopify, and StepZen. Part 2](https://agilitycms.com/resources/posts/tutorial-building-an-ecommerce-solution-with-agilitycms-shopify-and-stepzen)
 
+## StepZen Features
+- Easily deployed to [Vercel](https://vercel.com/)
+- Custom StepZen query editor on localhost allows you to inspect and create queries quickly
+- Pre-connected to [Shopify](https://www.shopify.com/) and [Agility](https://agilitycms.com/) in one secure endpoint
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fcommerce&project-name=commerce&repo-name=commerce&demo-title=Next.js%20Commerce&demo-description=An%20all-in-one%20starter%20kit%20for%20high-performance%20e-commerce%20sites.&demo-url=https%3A%2F%2Fdemo.vercel.store&demo-image=https%3A%2F%2Fbigcommerce-demo-asset-ksvtgfvnd.vercel.app%2Fbigcommerce.png&integration-ids=oac_MuWZiE4jtmQ2ejZQaQ7ncuDT)
-
-# Next.js Commerce
-
-The all-in-one starter kit for high-performance e-commerce sites. With a few clicks, Next.js developers can clone, deploy and fully customize their own store.
-Start right now at [nextjs.org/commerce](https://nextjs.org/commerce)
-
-Demo live at: [demo.vercel.store](https://demo.vercel.store/)
-
-- Shopify Demo: https://shopify.vercel.store/
-- Swell Demo: https://swell.vercel.store/
-- BigCommerce Demo: https://bigcommerce.vercel.store/
-- Vendure Demo: https://vendure.vercel.store
-- Saleor Demo: https://saleor.vercel.store/
-
-## Features
+## Next.js Features
 
 - Performant by default
 - SEO Ready
@@ -31,129 +20,139 @@ Demo live at: [demo.vercel.store](https://demo.vercel.store/)
 
 ## Integrations
 
-Next.js Commerce integrates out-of-the-box with BigCommerce, Shopify, Swell, Saleor and Vendure. We plan to support all major ecommerce backends.
+StepZen Commerce integrates out-of-the-box with Shopify and AgilityCMS. They plan to support all major ecommerce backends. With StepZen, you'll be able to quickly connect whatever ecommerce backends you have in mind, deployed to one GraphQL API. 
 
-## Considerations
+## Spinning Up the StepZen Endpoint
 
-- `framework/commerce` contains all types, helpers and functions to be used as base to build a new **provider**.
-- **Providers** live under `framework`'s root folder and they will extend Next.js Commerce types and functionality (`framework/commerce`).
-- We have a **Features API** to ensure feature parity between the UI and the Provider. The UI should update accordingly and no extra code should be bundled. All extra configuration for features will live under `features` in `commerce.config.json` and if needed it can also be accessed programatically.
-- Each **provider** should add its corresponding `next.config.js` and `commerce.config.json` adding specific data related to the provider. For example in case of BigCommerce, the images CDN and additional API routes.
-- **Providers don't depend on anything that's specific to the application they're used in**. They only depend on `framework/commerce`, on their own framework folder and on some dependencies included in `package.json`
+Prerequisites:
+You'll need to go to the StepZen account, https://stepzen.com/account, and install the StepZen CLI. https://stepzen.com/docs/cli
 
-## Configuration
+1. Go into the StepZen subfolder.
 
-### How to change providers
+```
+$ cd stepzen
+```
 
-Open `.env.local` and change the value of `COMMERCE_PROVIDER` to the provider you would like to use, then set the environment variables for that provider (use `.env.template` as the base).
+2. Add your AgilityCMS and Shopify Configurations to the `config.yaml` file.  You should already have your products set up in AgilityCMS and Shopify.  If you do not, refer to the blog, [Tutorial: Building an eCommerce Solution with AgilityCMS, Shopify, and StepZen. Part 2](https://agilitycms.com/resources/posts/tutorial-building-an-ecommerce-solution-with-agilitycms-shopify-and-stepzen).
 
-The setup for Shopify would look like this for example:
+Reminder: Make sure config.yaml is in your .gitignore
+
+```
+/stepzen/config.yaml
+```
+
+Copy that sample to a new config.yaml like so:
+
+```
+$ cd stepzen
+
+$ cp config.yaml.sample config.yaml   
+```
+
+And now edit the config.yaml file, inserting your API keys and credentials where appropriate:
+
+```
+configurationset:
+
+  - configuration:
+
+      name: agility_config
+
+      header.Apikey: <agility defaultpreview Apikey>
+
+      instance: <agility instance>
+
+  - configuration:
+
+      name: shopify_config
+
+      Authorization: Basic <basic auth header>
+
+      store_name: <shopify store name>
+
+  - configuration:
+
+      name: shopify
+
+      header.X-Shopify-Access-Token: <shopify-access-token>
+
+      store_name: <shopify store name>
+```
+
+The name for each of these configurationsets represents how they are referenced in your schemas.
+
+### Agility Configuration ###
+Under `agility_config`, we enter configuration data that tells StepZen how to talk to the Agility CMS API
+
+* header.Apikey, which is where you’ll put your Agility CMS defaultpreview Apikey. Go to settings in your Agility CMS instance and copy the defaultpreview API key.
+* instance, specifying the Agility instance number. Go to settings and copy the Instance GUID under Global Security.
+
+### Shopify REST API Configuration ###
+Under `shopify_config` we have configuration data that tells StepZen how to talk to the Shopify REST API:
+
+* Authorization: Basic, which is where you’ll put your Shopify RestAPI authorization key.
+    * Under Apps in Shopify, select the link “Manage Private Apps”
+    * Enable Private App Development and Create Private App
+    * Name and provide Admin API Permissions to the App. The more read, write permissions you provide, the fewer permission errors to debug.
+    * Check “Allow this app to access your storefront data using the Storefront API” and Save.
+    * To generate a Base64 Basic API Key, go to Base64 Online, and paste the APIKey and Secret like so, Apikey:Secret. Click the Encode button, and paste the result in this config, Authorization: Basic. Phew, done!
+* store_name for the Shopify store name.
+    * Example: testcanonicalstore
+
+
+### Shopify GraphQL API Configuration ###
+Under shopify we have configuration data that tells StepZen how to talk to the Shopify GraphQL API:
+
+* header.X-Shopify-Access-Token, which is where you’ll put your Admin API Shopify secret from above. Do not put your Shopify access token, this a bit tricky, but how Shopify wants it. We’ll use the STOREFRONT_ACCESS_TOKEN for the .env file.
+* store_name for the Shopify store name
+
+
+Note that we need both REST and GraphQL API connections to Shopify because the storefront id for the checkout process is only available via the GraphQL API.
+
+Once you have edited config.yaml to contain the required information to connect to your accounts at Agility and Shopify, we’re ready to upload the configuration to StepZen.
+
+### Upload Configuration ###
+We upload the configuration using the StepZen CLI. We can install that easily by running the following command in your terminal:
+
+```
+$ npm install -g stepzen
+```
+  
+Note: Windows support for the CLI is currently in beta. We recommend using WSL on Windows.
+
+You’ll need node to run this command as well.
+
+Now log in to StepZen using:
+
+```
+stepzen login -a {ACCOUNT}
+```
+
+When prompted for your admin key, enter your admin key from your My Account page.
+
+3. Run StepZen start
+
+```
+$ stepzen start
+```
+
+3. Once successfully deployed, copy the stepzen endpoint generated in your terminal to obtain your `NEXT_STEPZEN_API_URL` variable.
+
+```
+// Example
+
+https://account.stepzen.net/vercel/stepzen/__graphql
+```
+
+You'll need this to fill in your local variables in your .env, for example:
 
 ```
 COMMERCE_PROVIDER=shopify
-NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
-NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN=xxxxxxx.myshopify.com
+
+NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN=yourstore.myshopify.com
+NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN=your_token_here
+NEXT_STEPZEN_API_KEY=api_key_from_your_account_here
+NEXT_STEPZEN_API_URL=https://account.stepzen.net/vercel/stepzen/__graphql
 ```
 
-And check that the `tsconfig.json` resolves to the chosen provider:
 
-```
-  "@framework": ["framework/shopify"],
-  "@framework/*": ["framework/shopify/*"]
-```
-
-That's it!
-
-### Features
-
-Every provider defines the features that it supports under `framework/{provider}/commerce.config.json`
-
-#### Features Available
-
-The following features can be enabled or disabled. This means that the UI will remove all code related to the feature.
-For example: Turning `cart` off will disable Cart capabilities.
-
-- cart
-- search
-- wishlist
-- customerAuth
-- customCheckout
-
-#### How to turn Features on and off
-
-> NOTE: The selected provider should support the feature that you are toggling. (This means that you can't turn wishlist on if the provider doesn't support this functionality out the box)
-
-- Open `commerce.config.json` 
-- You'll see a config file like this:
-  ```json
-  {
-    "features": {
-      "wishlist": false,
-      "customCheckout": true
-    }
-  }
-  ```
-- Turn `wishlist` on by setting `wishlist` to `true`.
-- Run the app and the wishlist functionality should be back on.
-
-### How to create a new provider
-
-Follow our docs for [Adding a new Commerce Provider](framework/commerce/new-provider.md).
-
-If you succeeded building a provider, submit a PR with a valid demo and we'll review it asap.
-
-## Contribute
-
-Our commitment to Open Source can be found [here](https://vercel.com/oss).
-
-1. [Fork](https://help.github.com/articles/fork-a-repo/) this repository to your own GitHub account and then [clone](https://help.github.com/articles/cloning-a-repository/) it to your local device.
-2. Create a new branch `git checkout -b MY_BRANCH_NAME`
-3. Install yarn: `npm install -g yarn`
-4. Install the dependencies: `yarn`
-5. Duplicate `.env.template` and rename it to `.env.local`
-6. Add proper store values to `.env.local`
-7. Run `yarn dev` to build and watch for code changes
-
-## Work in progress
-
-We're using Github Projects to keep track of issues in progress and todo's. Here is our [Board](https://github.com/vercel/commerce/projects/1)
-
-People actively working on this project: @okbel & @lfades.
-
-## Troubleshoot
-
-<details>
-<summary>I already own a BigCommerce store. What should I do?</summary>
-<br>
-First thing you do is: <b>set your environment variables</b>
-<br>
-<br>
-.env.local
-
-```sh
-BIGCOMMERCE_STOREFRONT_API_URL=<>
-BIGCOMMERCE_STOREFRONT_API_TOKEN=<>
-BIGCOMMERCE_STORE_API_URL=<>
-BIGCOMMERCE_STORE_API_TOKEN=<>
-BIGCOMMERCE_STORE_API_CLIENT_ID=<>
-BIGCOMMERCE_CHANNEL_ID=<>
-```
-
-If your project was started with a "Deploy with Vercel" button, you can use Vercel's CLI to retrieve these credentials.
-
-1. Install Vercel CLI: `npm i -g vercel`
-2. Link local instance with Vercel and Github accounts (creates .vercel file): `vercel link`
-3. Download your environment variables: `vercel env pull .env.local`
-
-Next, you're free to customize the starter. More updates coming soon. Stay tuned.
-
-</details>
-
-<details>
-<summary>BigCommerce shows a Coming Soon page and requests a Preview Code</summary>
-<br>
-After Email confirmation, Checkout should be manually enabled through BigCommerce platform. Look for "Review & test your store" section through BigCommerce's dashboard.
-<br>
-<br>
-BigCommerce team has been notified and they plan to add more detailed about this subject.
-</details>
