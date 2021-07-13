@@ -14380,24 +14380,6 @@ input InventoryLevelInput {
 }
 
 """
-A job corresponds to some long running task that the client should poll for status.
-"""
-type Job {
-  """
-  This indicates if the job is still queued or has been run.
-  """
-  done: Boolean!
-  """
-  Globally unique identifier.
-  """
-  id: ID!
-  """
-  This field will only resolve once the job is done. Can be used to ask for object(s) that have been changed by the job.
-  """
-  query: Query
-}
-
-"""
 The locale language allowed for Kit Skill.
 """
 enum KitSkillLocale {
