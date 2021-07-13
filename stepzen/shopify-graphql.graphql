@@ -3179,10 +3179,6 @@ Return type for `collectionRemoveProducts` mutation.
 """
 type CollectionRemoveProductsPayload {
   """
-  The asynchronous job removing the products.
-  """
-  job: Job
-  """
   List of errors that occurred executing the mutation.
   """
   userErrors: [UserError!]!
@@ -3192,10 +3188,6 @@ type CollectionRemoveProductsPayload {
 Return type for `collectionReorderProducts` mutation.
 """
 type CollectionReorderProductsPayload {
-  """
-  The asynchronous job reordering the products.
-  """
-  job: Job
   """
   List of errors that occurred executing the mutation.
   """
@@ -3483,10 +3475,6 @@ type CollectionUpdatePayload {
   The updated collection.
   """
   collection: Collection
-  """
-  The asynchronous job updating the products based on the new rule set.
-  """
-  job: Job
   """
   List of errors that occurred executing the mutation.
   """
@@ -7827,10 +7815,6 @@ Return type for `deliveryProfileRemove` mutation.
 """
 type deliveryProfileRemovePayload {
   """
-  The profile deletion job triggered by the mutation.
-  """
-  job: Job
-  """
   List of errors that occurred executing the mutation.
   """
   userErrors: [UserError!]!
@@ -8344,10 +8328,6 @@ type DiscountAutomaticBasicUpdatePayload {
 Return type for `discountAutomaticBulkDelete` mutation.
 """
 type DiscountAutomaticBulkDeletePayload {
-  """
-  The asynchronous job removing the automatic discounts.
-  """
-  job: Job
   """
   List of errors that occurred executing the mutation.
   """
@@ -8898,10 +8878,6 @@ Return type for `discountCodeBulkActivate` mutation.
 """
 type DiscountCodeBulkActivatePayload {
   """
-  The asynchronous job that activates the code discounts.
-  """
-  job: Job
-  """
   List of errors that occurred executing the mutation.
   """
   userErrors: [DiscountUserError!]!
@@ -8912,10 +8888,6 @@ Return type for `discountCodeBulkDeactivate` mutation.
 """
 type DiscountCodeBulkDeactivatePayload {
   """
-  The asynchronous job that deactivates the code discounts.
-  """
-  job: Job
-  """
   List of errors that occurred executing the mutation.
   """
   userErrors: [DiscountUserError!]!
@@ -8925,10 +8897,6 @@ type DiscountCodeBulkDeactivatePayload {
 Return type for `discountCodeBulkDelete` mutation.
 """
 type DiscountCodeBulkDeletePayload {
-  """
-  The asynchronous job that deletes the code discounts.
-  """
-  job: Job
   """
   List of errors that occurred executing the mutation.
   """
@@ -9457,10 +9425,6 @@ type DiscountCodeNodeEdge {
 Return type for `discountCodeRedeemCodeBulkDelete` mutation.
 """
 type DiscountCodeRedeemCodeBulkDeletePayload {
-  """
-  The asynchronous job that deletes the discount redeem codes.
-  """
-  job: Job
   """
   List of errors that occurred executing the mutation.
   """
@@ -22590,10 +22554,6 @@ Return type for `productDuplicate` mutation.
 """
 type ProductDuplicatePayload {
   """
-  The asynchronous job duplicating the product images.
-  """
-  imageJob: Job
-  """
   The duplicated product.
   """
   newProduct: Product
@@ -23023,10 +22983,6 @@ Return type for `productReorderImages` mutation.
 """
 type ProductReorderImagesPayload {
   """
-  The asynchronous job reordering the images.
-  """
-  job: Job
-  """
   List of errors that occurred executing the mutation.
   """
   userErrors: [UserError!]!
@@ -23036,10 +22992,6 @@ type ProductReorderImagesPayload {
 Return type for `productReorderMedia` mutation.
 """
 type ProductReorderMediaPayload {
-  """
-  The asynchronous job reordering the media.
-  """
-  job: Job
   """
   List of errors that occurred executing the mutation.
   """
@@ -25504,19 +25456,6 @@ type Query {
     """
     id: ID!
   ): InventoryLevel
-    @graphql(
-      endpoint: "https://$store_name.myshopify.com/admin/api/2021-04/graphql.json"
-      configuration: "shopify"
-    )
-  """
-  Returns a Job resource by ID. Used to check the status of internal jobs and any applicable changes.
-  """
-  job(
-    """
-    ID of the job to query.
-    """
-    id: ID!
-  ): Job
     @graphql(
       endpoint: "https://$store_name.myshopify.com/admin/api/2021-04/graphql.json"
       configuration: "shopify"
